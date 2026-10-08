@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiplômeChain — Blockchain </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- EN-TÊTE -->
+  <header>
+    <div class="header-contenu">
+      <div class="logo">
+        <span class="logo-hex">⬡</span>
+        <span>DiplômeChain</span>
+      </div>
+      <div class="wallet-zone">
+        <div id="badge-admin" style="display:none;" class="badge-admin">
+          <span class="dot"></span> ADMIN
+        </div>
+        <div id="wallet-info" style="display:none;" class="wallet-info">
+          <span id="adresse-connectee" class="adresse-mono"></span>
+        </div>
+        <button id="btn-connecter" onclick="connecterWallet()">
+          🦊 Connecter MetaMask
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MESSAGE GLOBAL -->
+  <div id="message-global" class="message" style="display:none;"></div>
+
+  <main>
+
+    <!-- ACCUEIL (non connecté) -->
+    <section id="section-accueil" class="hero">
+      <h1>Enregistrement de<br/><span class="gradient-text">diplômes</span><br/>sur blockchain</h1>
+      <p class="hero-desc">Un système transparent, inaltérable et vérifiable par tous. Les diplômes enregistrés ne peuvent jamais être falsifiés.</p>
+      <div class="hero-features">
+        <div class="feature"><div class="f-icon">🔒</div><span>Données inaltérables</span></div>
+        <div class="feature"><div class="f-icon">🔍</div><span>Consultation publique</span></div>
+        <div class="feature"><div class="f-icon">👑</div><span>Ajout admin uniquement</span></div>
+      </div>
+      <button class="btn-hero" onclick="connecterWallet()">
+        🦊 Connecter MetaMask pour commencer <span>→</span>
+      </button>
+    </section>
+
+    <!-- DASHBOARD (connecté) -->
+    <div id="dashboard" style="display:none;">
+
+      <!-- SECTION ADMIN (seulement si admin) -->
+      <section id="section-admin" style="display:none;" class="bloc-admin">
+        <div class="bloc-header">
+          <div class="bloc-titre">
+            <span class="s-icon">👑</span>
+            <div>
+              <h2>Panneau Administrateur</h2>
+              <p>Seul vous pouvez voir et utiliser cette section</p>
+            </div>
+          </div>
+          <div class="admin-tag">ADMIN ONLY</div>
+        </div>
+        <div class="formulaire">
+          <div class="champ full">
+            <label>Adresse Ethereum de l'étudiant</label>
+            <input type="text" id="input-adresse" placeholder="0x..." />
+          </div>
+          <div class="champ">
+            <label>Nom complet</label>
+            <input type="text" id="input-nom" placeholder="Ex: Mohamed Amine" />
+          </div>
+          <div class="champ">
+            <label>Titre du diplôme</label>
+            <input type="text" id="input-titre" placeholder="Ex: Licence Informatique" />
+          </div>
+          <div class="champ">
+            <label>Université</label>
+            <input type="text" id="input-universite" placeholder="Ex: Université Hassan 2" />
+          </div>
+          <div class="champ">
+            <label>Année d'obtention</label>
+            <input type="number" id="input-annee" placeholder="2025" min="1900" max="2100" />
+          </div>
+          <button id="btn-ajouter" class="btn-ajouter" onclick="ajouterDiplome()">
+            ⛓ Enregistrer sur la blockchain
+          </button>
+        </div>
+      </section>
+
+      <!-- MESSAGE ÉTUDIANT (pas admin) -->
+      <section id="section-pas-admin" style="display:none;" class="bloc-etudiant">
+        <div class="etudiant-icon">🎓</div>
+        <h3>Mode Étudiant</h3>
+        <p>Tu es connecté en mode consultation.</p>
+      </section>
+
+      <!-- SECTION CONSULTER  -->
+      <section id="section-consulter" class="bloc-consulter">
+        <div class="bloc-header">
+          <div class="bloc-titre">
+            <span class="s-icon">🔍</span>
+            <div>
+              <h2>Consulter les diplômes</h2>
+              <p>Recherche par adresse Ethereum — accessible à tous</p>
+            </div>
+          </div>
+        </div>
+        <div class="recherche-zone">
+          <input type="text" id="input-recherche" placeholder="Adresse Ethereum : 0x..." />
+          <button class="btn-moi" onclick="remplirMonAdresse()">📋 Mon adresse</button>
+          <button class="btn-chercher" onclick="consulterDiplomes()">Rechercher →</button>
+        </div>
+        <div id="resultat-diplomes"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>Kar-any Mohamed Amine & Ayar Mohcine</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+  <script src="abi.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

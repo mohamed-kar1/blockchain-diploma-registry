@@ -1,0 +1,602 @@
+/* =============================================
+   VARIABLES & RESET
+   ============================================= */
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: #2a2a3a;
+  --border2: #3a3a50;
+  --text: #e8e8f0;
+  --text2: #8888aa;
+  --admin: #f0a500;
+  --admin-bg: rgba(240,165,0,0.08);
+  --admin-border: rgba(240,165,0,0.25);
+  --blue: #4f8ef7;
+  --blue-bg: rgba(79,142,247,0.08);
+  --green: #3dd68c;
+  --red: #f75f5f;
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   FOND ANIMÉ
+   ============================================= */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79,142,247,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,142,247,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-glow {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   EN-TÊTE
+   ============================================= */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 30px;
+}
+
+.header-contenu {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.logo-hex {
+  font-size: 1.5rem;
+  color: var(--blue);
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.wallet-zone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge-admin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--admin);
+  border-radius: 50%;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reseau-tag {
+  background: rgba(61,214,140,0.1);
+  border: 1px solid rgba(61,214,140,0.2);
+  color: var(--green);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.adresse-mono {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text2);
+}
+
+#btn-connecter {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#btn-connecter:hover {
+  background: #6aa0ff;
+  transform: translateY(-1px);
+}
+
+/* =============================================
+   MESSAGE GLOBAL
+   ============================================= */
+.message {
+  max-width: 960px;
+  margin: 16px auto 0;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 10;
+}
+
+.message.succes {
+  background: rgba(61,214,140,0.1);
+  border: 1px solid rgba(61,214,140,0.3);
+  color: var(--green);
+}
+.message.erreur {
+  background: rgba(247,95,95,0.1);
+  border: 1px solid rgba(247,95,95,0.3);
+  color: var(--red);
+}
+.message.info {
+  background: var(--blue-bg);
+  border: 1px solid rgba(79,142,247,0.3);
+  color: var(--blue);
+}
+
+/* =============================================
+   MAIN & LAYOUT
+   ============================================= */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =============================================
+   HERO (accueil)
+   ============================================= */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-chip {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 30px;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--blue), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  color: var(--text2);
+  max-width: 500px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.hero-features {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--text2);
+}
+
+.f-icon { font-size: 1.1rem; }
+
+.btn-hero {
+  background: linear-gradient(135deg, var(--blue), #7c6af7);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 30px rgba(79,142,247,0.3);
+}
+
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(79,142,247,0.4);
+}
+
+/* =============================================
+   BLOCS DASHBOARD
+   ============================================= */
+.bloc-admin,
+.bloc-consulter {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  animation: fadeUp 0.4s ease;
+}
+
+.bloc-admin {
+  border-color: var(--admin-border);
+  background: linear-gradient(135deg, var(--surface), #1a1508);
+  position: relative;
+  overflow: hidden;
+}
+
+.bloc-admin::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--admin), transparent);
+}
+
+.bloc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.bloc-titre {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.s-icon {
+  font-size: 1.5rem;
+  margin-top: 2px;
+}
+
+.bloc-titre h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.bloc-titre p {
+  color: var(--text2);
+  font-size: 0.85rem;
+}
+
+.admin-tag {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* =============================================
+   FORMULAIRE ADMIN
+   ============================================= */
+.formulaire {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.champ.full {
+  grid-column: 1 / -1;
+}
+
+.champ label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.champ input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.champ input::placeholder { color: #555566; }
+
+.champ input:focus {
+  outline: none;
+  border-color: var(--admin);
+  box-shadow: 0 0 0 3px rgba(240,165,0,0.1);
+}
+
+.btn-ajouter {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #f0a500, #e07b00);
+  color: #0a0a0f;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.btn-ajouter:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(240,165,0,0.3);
+}
+
+.btn-ajouter:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =============================================
+   SECTION ÉTUDIANT
+   ============================================= */
+.bloc-etudiant {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  text-align: center;
+  animation: fadeUp 0.4s ease;
+}
+
+.etudiant-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.bloc-etudiant h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.bloc-etudiant p { color: var(--text2); font-size: 0.9rem; line-height: 1.6; }
+
+/* =============================================
+   SECTION CONSULTER
+   ============================================= */
+.recherche-zone {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.recherche-zone input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.recherche-zone input::placeholder { color: #555566; }
+
+.recherche-zone input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(79,142,247,0.1);
+}
+
+.btn-moi {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-moi:hover { border-color: var(--border2); color: var(--text); }
+
+.btn-chercher {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 9px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-chercher:hover {
+  background: #6aa0ff;
+  transform: translateY(-1px);
+}
+
+/* =============================================
+   CARTES DIPLÔME
+   ============================================= */
+.nb-diplomes {
+  color: var(--text2);
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  font-family: 'Space Mono', monospace;
+}
+
+.carte-diplome {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--blue);
+  transition: border-color 0.2s, transform 0.2s;
+  animation: fadeUp 0.3s ease;
+}
+
+.carte-diplome:hover {
+  border-left-color: #a78bfa;
+  transform: translateX(4px);
+}
+
+.diplome-titre {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.diplome-info {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text2);
+  margin: 5px 0;
+}
+
+.diplome-info span {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.vide {
+  text-align: center;
+  color: var(--text2);
+  padding: 30px;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #44445a;
+  font-size: 0.8rem;
+  font-family: 'Space Mono', monospace;
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 640px) {
+  .formulaire { grid-template-columns: 1fr; }
+  .champ.full { grid-column: 1; }
+  .btn-ajouter { grid-column: 1; }
+  .recherche-zone { flex-direction: column; }
+  .header-contenu { flex-direction: column; gap: 10px; }
+  .hero { padding: 50px 10px; }
+}
